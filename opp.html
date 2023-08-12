@@ -84,13 +84,13 @@
         <!-- Your form structure -->
 
         <div class="in">
-            <input type="text" id="name" placeholder="Enter your name:" >
+            <input type="text" id="name" placeholder="Enter your name:" oninput="clearError(this, 'nameError')">
             <span class="error" id="nameError"></span>
-            <input type="email" id="email" placeholder="Enter your email:" >
+            <input type="email" id="email" placeholder="Enter your email:" oninput="clearError(this, 'emailError')">
             <span class="error" id="emailError"></span>
-            <input type="password" id="password" placeholder="Enter your password:">
+            <input type="password" id="password" placeholder="Enter your password:" oninput="clearError(this, 'passwordError')">
             <span class="error" id="passwordError"></span>
-            <input type="password" id="confirmPassword" placeholder="Confirm your password:" >
+            <input type="password" id="confirmPassword" placeholder="Confirm your password:" oninput="clearError(this, 'confirmPasswordError')">
             <span class="error" id="confirmPasswordError"></span>
         </div>
         <div class="bn">
@@ -100,7 +100,11 @@
     </div>
 
     <script>
-      
+        function clearError(inputElement, errorId) {
+            const errorElement = document.getElementById(errorId);
+            errorElement.textContent = '';
+            inputElement.style.border = '1px solid tomato';
+        }
 
         function validateForm() {
             validateName();
@@ -131,7 +135,7 @@
                 email.style.border = '1px solid red';
             } else {
                 emailError.textContent = '';
-                email.style.border = '1px solid blue';
+                email.style.border = '1px solid tomato';
             }
         }
 
