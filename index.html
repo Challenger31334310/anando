@@ -4,7 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style> 
+   .in{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+   
+   }
+   input{
+    padding: 1rem;
+    border-radius: 0.5rem;
+    outline: none;
+    border: 1px solid tomato;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: medium;
+  
+   }
+input::placeholder{
+    font-weight: 700;
+}
+    input:hover{
+        border-color: black;
+    }
+    .form{
+        background-color: rgba(250, 215, 225, 0.854);
+        padding: 1rem;
+        width: 50%;
+        margin: 0 auto;
+        margin-top: 10vh;
+        border-radius: 0.6rem;
+        -webkit-box-shadow: 5px 5px 0px 0px #289FED, 10px 10px 0px 0px #5FB8FF, 15px 15px 0px 0px #A1D8FF, 20px 20px 0px 0px #CAE6FF, 25px 25px 0px 0px #E1EEFF, 13px 3px 15px 50px rgba(183,123,123,0); 
+box-shadow: 5px 5px 0px 0px #289FED, 10px 10px 0px 0px #5FB8FF, 15px 15px 0px 0px #A1D8FF, 20px 20px 0px 0px #CAE6FF, 25px 25px 0px 0px #E1EEFF, 13px 3px 15px 50px rgba(183,123,123,0);
+    }
+    button{
+        padding: 0.7rem;
+        border: 2px solid white;
+        border-radius: 0.4rem;
+        width: 15vw;
+        font-family:fantasy;
+        font-weight: 400;
+        
+    }
+    .bn{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1rem;
+        gap: 1rem;
+    }
+    button:hover{
+        background-color: cadetblue;
+        transition: 1s all;
+    }
+    h1{
+        font-size: xx-large;
+        color: skyblue;
+    }
+    h1::first-letter{
+        font-family: cursive;
+        color: darkgreen;
+    }
+    @media screen  and (max-width:576px){
+        .form{ 
+       width: auto;  
+    }
+    button{
+       
+        width: auto;
+            
+    }
+    }
+    </style>
 </head>
 <body>
-  <p>hello world</p>
+    <div class="form">
+        <div class="head">
+            <h1>Log in</h1>
+        </div>
+       
+        <div class="in">
+        <input type="text" name="" id="" placeholder="Enter your name:">
+        <input type="email" name="" id="" placeholder="Enter your email:">
+        <input type="password" name="" id="" placeholder="Enter your password:">
+        <input type="password" name="" id="" placeholder="Confirm your password:">
+        </div>
+        <div class="bn">
+            <button type="submit">Submit</button>
+            <button type="reset">Reset</button>
+        </div>
+    </div>
+    <!---->
+     
+</body>
 </html>
