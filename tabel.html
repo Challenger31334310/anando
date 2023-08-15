@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Generator</title>
+    <style>
+        :root {
+    --primary-color: #007bff;
+    --modal-background: rgba(0, 0, 0, 0.4);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.container {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    width: 300px;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+input[type="number"] {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 3px;
+}
+
+button {
+    padding: 5px 10px;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+}
+
+.generated-table {
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 600px;
+    table-layout: fixed;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.generated-table th, .generated-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.generated-table th {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--modal-background);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #888;
+    cursor: pointer;
+}
+
+/* Additional CSS styles */
+
+/* Add your additional CSS styles here */
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Table Generator</h2>
+        <label for="rowCount">Number of Rows:</label>
+        <input type="number" id="rowCount" min="1" value="3">
+        <label for="colCount">Number of Columns:</label>
+        <input type="number" id="colCount" min="1" value="3">
+        <button id="generateTableButton">Generate Table</button>
+    </div>
+    <div class="container" id="tableContainer"></div>
+    <div id="tableCodeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <pre id="tableCode"></pre>
+        </div>
+    </div>
+    <div class="container" id="cellSettings">
+        <label for="rowspan">Rowspan:</label>
+        <input type="number" id="rowspan" min="1" value="1">
+        <label for="colspan">Colspan:</label>
+        <input type="number" id="colspan" min="1" value="1">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const generateTableButton = document.getElementById('generateTableButton');
+            generateTableButton.addEventListener('click', generateTable);
+
+            const closeModal = document.getElementById('closeModal');
+            closeModal.addEventListener('click', hideModal);
+        });
+
+        function generateTable() {
+            const rowCount = parseInt(document.getElementById('rowCount').value);
+            const colCount = parseInt(document.getElementById('colCount').value);
+
+            const rowspan = parseInt(document.getElementById('rowspan').value);
+            const colspan = parseInt(document.getElementById('colspan').value);
+
+            const tableContainer = document.getElementById('tableContainer');
+            tableContainer.innerHTML = ''; // Clear previous content
+
+            const table = document.createElement('table');
+            table.className = 'generated-table';
+
+            for (let i = 0; i < rowCount; i++) {
+                const row = document.createElement('tr');
+
+                for (let j = 0; j < colCount; j++) {
+                    const cell = document.createElement(i === 0 ? 'th' : 'td');
+                    cell.textContent = i === 0 ? `Header ${j + 1}` : `Row ${i}, Col ${j + 1}`;
+
+                    if (rowspan > 1) {
+                        cell.rowSpan = rowspan;
+                    }
+                    if (colspan > 1) {
+                        cell.colSpan = colspan;
+                    }
+
+                    row.appendChild(cell);
+                }
+
+                table.appendChild(row);
+            }
+
+            tableContainer.appendChild(table);
+
+            const tableCode = generateTableCode(rowCount, colCount, rowspan, colspan);
+            document.getElementById('tableCode').textContent = tableCode;
+
+            showModal();
+        }
+
+        function generateTableCode(rows, cols, rowspan, colspan) {
+            let code = '<table class="generated-table">\n';
+
+            for (let i = 0; i < rows; i++) {
+                code += '  <tr>\n';
+
+                for (let j = 0; j < cols; j++) {
+                    if (i === 0) {
+                        code += `    <th>Header ${j + 1}</th>\n`;
+                    } else {
+                        code += `    <td`;
+                        if (rowspan > 1) {
+                            code += ` rowspan="${rowspan}"`;
+                        }
+                        if (colspan > 1) {
+                            code += ` colspan="${colspan}"`;
+                        }
+                        code += `>Row ${i}, Col ${j + 1}</td>\n`;
+                    }
+                }
+
+                code += '  </tr>\n';
+            }
+
+            code += '</table>';
+
+            return code;
+        }
+
+        function showModal() {
+            const modal = document.getElementById('tableCodeModal');
+            modal.style.display = 'block';
+        }
+
+        function hideModal() {
+            const modal = document.getElementById('tableCodeModal');
+            modal.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
